@@ -1,31 +1,20 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const ProductProfileApp());
+  runApp(const MyApp());
 }
 
-class ProductProfileApp extends StatelessWidget {
-  const ProductProfileApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const brandColor = Color(0xFF176B5B);
-
     return MaterialApp(
       title: 'Product & Profile',
-      debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF136F63)),
+        scaffoldBackgroundColor: const Color(0xFFF4F6F2),
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: brandColor,
-          surface: const Color(0xFFF7F8F5),
-        ),
-        scaffoldBackgroundColor: const Color(0xFFF7F8F5),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFFF7F8F5),
-          foregroundColor: Color(0xFF173B34),
-          centerTitle: false,
-        ),
       ),
       home: const ProductProfilePage(),
     );
@@ -39,116 +28,25 @@ class ProductProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'PPM Sesi 2 - Nama (NIM)',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
-        ),
+        title: const Text('PPM Sesi 2 - Nama (NIM)'),
+        backgroundColor: const Color(0xFFF4F6F2),
+        foregroundColor: const Color(0xFF18332F),
+        centerTitle: false,
       ),
-      body: SafeArea(
-        top: false,
-        child: Center(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 560),
-            child: ListView(
-              padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
-              children: const [
-                PromoBanner(),
-                SizedBox(height: 20),
-                SectionHeading(
-                  eyebrow: 'KENALAN DULU',
-                  title: 'Profil Mahasiswa',
-                ),
-                SizedBox(height: 10),
-                StudentProfileCard(),
-                SizedBox(height: 22),
-                SectionHeading(
-                  eyebrow: 'PILIHAN MINGGU INI',
-                  title: 'Produk Pilihan',
-                ),
-                SizedBox(height: 10),
-                ProductCard(),
-                SizedBox(height: 20),
-                Center(
-                  child: Text(
-                    'Belanja nyaman, belajar tetap semangat ✨',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Color(0xFF74827E), fontSize: 12),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class PromoBanner extends StatelessWidget {
-  const PromoBanner({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 148,
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
-        child: Stack(
-          children: [
-            Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFF145C50), Color(0xFF328B70)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-            ),
-            Positioned(
-              right: -18,
-              top: -48,
-              child: Container(
-                width: 188,
-                height: 188,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.08),
-                ),
-              ),
-            ),
-            Positioned(
-              right: 18,
-              bottom: -34,
-              child: Icon(
-                Icons.local_mall_rounded,
-                size: 150,
-                color: Colors.white.withValues(alpha: 0.12),
-              ),
-            ),
-            const Positioned(left: 22, top: 18, child: _PromoCopy()),
-            Positioned(
-              left: 22,
-              bottom: 16,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 7,
-                ),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFD166),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: const Text(
-                  'KODE: PPMHEMAT',
-                  style: TextStyle(
-                    color: Color(0xFF493812),
-                    fontSize: 10,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-              ),
-            ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: const [
+            _PromoBanner(),
+            SizedBox(height: 22),
+            _SectionHeading(title: 'Profil Mahasiswa', eyebrow: 'TENTANG SAYA'),
+            SizedBox(height: 10),
+            StudentProfileCard(),
+            SizedBox(height: 24),
+            _SectionHeading(title: 'Produk Pilihan', eyebrow: 'TOKO HARI INI'),
+            SizedBox(height: 10),
+            ProductCard(),
           ],
         ),
       ),
@@ -156,46 +54,86 @@ class PromoBanner extends StatelessWidget {
   }
 }
 
-class _PromoCopy extends StatelessWidget {
-  const _PromoCopy();
+class _PromoBanner extends StatelessWidget {
+  const _PromoBanner();
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'PROMO SPESIAL',
-          style: TextStyle(
-            color: Color(0xFFBCE8D8),
-            fontSize: 10,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 1.5,
+    return Container(
+      height: 142,
+      decoration: BoxDecoration(
+        color: const Color(0xFF136F63),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Stack(
+        children: [
+          const Positioned(
+            left: 20,
+            top: 20,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'PROMO MINGGU INI',
+                  style: TextStyle(
+                    color: Color(0xFFFFD166),
+                    fontWeight: FontWeight.w700,
+                    fontSize: 11,
+                    letterSpacing: 1,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Temukan pilihan\nuntuk harimu.',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 21,
+                    fontWeight: FontWeight.w700,
+                    height: 1.15,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        SizedBox(height: 5),
-        Text(
-          'Temukan favoritmu',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 21,
-            fontWeight: FontWeight.w800,
+          Positioned(
+            right: 18,
+            bottom: 18,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 7),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFD166),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: const Text(
+                'DISKON 20%',
+                style: TextStyle(
+                  color: Color(0xFF18332F),
+                  fontWeight: FontWeight.w800,
+                  fontSize: 11,
+                ),
+              ),
+            ),
           ),
-        ),
-        Text(
-          'Diskon sampai 25% untuk pilihan minggu ini',
-          style: TextStyle(color: Colors.white, fontSize: 11),
-        ),
-      ],
+          const Positioned(
+            right: 18,
+            top: 16,
+            child: Icon(
+              Icons.local_offer_outlined,
+              color: Colors.white24,
+              size: 42,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
-class SectionHeading extends StatelessWidget {
-  const SectionHeading({required this.eyebrow, required this.title, super.key});
+class _SectionHeading extends StatelessWidget {
+  const _SectionHeading({required this.title, required this.eyebrow});
 
-  final String eyebrow;
   final String title;
+  final String eyebrow;
 
   @override
   Widget build(BuildContext context) {
@@ -205,19 +143,19 @@ class SectionHeading extends StatelessWidget {
         Text(
           eyebrow,
           style: const TextStyle(
-            color: Color(0xFF788984),
-            fontSize: 9,
+            color: Color(0xFFCF5C36),
+            fontSize: 10,
             fontWeight: FontWeight.w800,
-            letterSpacing: 1.4,
+            letterSpacing: 1.1,
           ),
         ),
         const SizedBox(height: 3),
         Text(
           title,
           style: const TextStyle(
-            color: Color(0xFF183A33),
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
+            color: Color(0xFF18332F),
+            fontSize: 19,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ],
@@ -235,8 +173,8 @@ class StudentProfileCard extends StatelessWidget {
       elevation: 0,
       color: Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-        side: const BorderSide(color: Color(0xFFE9EFEB)),
+        borderRadius: BorderRadius.circular(8),
+        side: const BorderSide(color: Color(0xFFE5EAE5)),
       ),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -246,13 +184,13 @@ class StudentProfileCard extends StatelessWidget {
               width: 62,
               height: 62,
               decoration: BoxDecoration(
-                color: const Color(0xFFE5F2EC),
-                borderRadius: BorderRadius.circular(18),
+                color: const Color(0xFFDCECE6),
+                borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(
-                Icons.person_rounded,
+                Icons.person,
+                color: Color(0xFF136F63),
                 size: 36,
-                color: Color(0xFF176B5B),
               ),
             ),
             const SizedBox(width: 14),
@@ -263,58 +201,28 @@ class StudentProfileCard extends StatelessWidget {
                   Text(
                     'Nama Mahasiswa',
                     style: TextStyle(
-                      color: Color(0xFF173B34),
-                      fontSize: 15,
-                      fontWeight: FontWeight.w800,
+                      color: Color(0xFF18332F),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
-                  SizedBox(height: 3),
+                  SizedBox(height: 4),
                   Text(
-                    'NIM: 23.11.0000',
-                    style: TextStyle(color: Color(0xFF667771), fontSize: 12),
+                    'NIM: 123456789',
+                    style: TextStyle(color: Color(0xFF64736D)),
                   ),
-                  SizedBox(height: 2),
                   Text(
-                    'Teknik Informatika • Kelas A',
-                    style: TextStyle(color: Color(0xFF667771), fontSize: 11),
+                    'Prodi / Kelas: Informatika / A',
+                    style: TextStyle(color: Color(0xFF64736D)),
                   ),
-                  SizedBox(height: 6),
-                  Wrap(
-                    crossAxisAlignment: WrapCrossAlignment.center,
+                  SizedBox(height: 7),
+                  Row(
                     children: [
-                      Icon(
-                        Icons.star_rounded,
-                        color: Color(0xFFFFB938),
-                        size: 16,
-                      ),
-                      Icon(
-                        Icons.star_rounded,
-                        color: Color(0xFFFFB938),
-                        size: 16,
-                      ),
-                      Icon(
-                        Icons.star_rounded,
-                        color: Color(0xFFFFB938),
-                        size: 16,
-                      ),
-                      Icon(
-                        Icons.star_rounded,
-                        color: Color(0xFFFFB938),
-                        size: 16,
-                      ),
-                      Icon(
-                        Icons.star_rounded,
-                        color: Color(0xFFFFB938),
-                        size: 16,
-                      ),
-                      SizedBox(width: 5),
-                      Text(
-                        'Mahasiswa aktif',
-                        style: TextStyle(
-                          color: Color(0xFF87938E),
-                          fontSize: 10,
-                        ),
-                      ),
+                      Icon(Icons.star, color: Color(0xFFE6A817), size: 17),
+                      Icon(Icons.star, color: Color(0xFFE6A817), size: 17),
+                      Icon(Icons.star, color: Color(0xFFE6A817), size: 17),
+                      Icon(Icons.star, color: Color(0xFFE6A817), size: 17),
+                      Icon(Icons.star, color: Color(0xFFE6A817), size: 17),
                     ],
                   ),
                 ],
@@ -335,27 +243,31 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
-  static const int _unitPrice = 349000;
+  static const int _unitPrice = 125000;
   int _quantity = 1;
-  int _likes = 128;
+  int _likes = 24;
   bool _isFavorite = false;
+
+  void _changeQuantity(int amount) {
+    setState(() {
+      _quantity = (_quantity + amount).clamp(1, 999);
+    });
+  }
+
+  void _toggleFavorite() {
+    setState(() {
+      _isFavorite = !_isFavorite;
+      _likes += _isFavorite ? 1 : -1;
+    });
+  }
 
   String _formatRupiah(int amount) {
     final digits = amount.toString();
-    final formatted = StringBuffer();
-    for (var i = 0; i < digits.length; i++) {
-      if (i > 0 && (digits.length - i) % 3 == 0) {
-        formatted.write('.');
-      }
-      formatted.write(digits[i]);
-    }
-    return 'Rp${formatted.toString()}';
-  }
-
-  void _changeQuantity(int difference) {
-    setState(() {
-      _quantity = (_quantity + difference).clamp(1, 99).toInt();
-    });
+    final formatted = digits.replaceAllMapped(
+      RegExp(r'\B(?=(\d{3})+(?!\d))'),
+      (match) => '.',
+    );
+    return 'Rp $formatted';
   }
 
   @override
@@ -364,238 +276,169 @@ class _ProductCardState extends State<ProductCard> {
       margin: EdgeInsets.zero,
       elevation: 0,
       color: Colors.white,
-      clipBehavior: Clip.antiAlias,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(22),
-        side: const BorderSide(color: Color(0xFFE9EFEB)),
+        borderRadius: BorderRadius.circular(8),
+        side: const BorderSide(color: Color(0xFFE5EAE5)),
       ),
+      clipBehavior: Clip.antiAlias,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(
-            height: 174,
-            width: double.infinity,
-            child: Stack(
+          Container(
+            height: 150,
+            color: const Color(0xFFEAF1EC),
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xFFE8F1EA), Color(0xFFD7E8DD)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                  ),
-                  child: const Center(
-                    child: Icon(
-                      Icons.headphones_rounded,
-                      size: 104,
-                      color: Color(0xFF276D5B),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 14,
-                  left: 14,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Text(
-                      'TERLARIS',
-                      style: TextStyle(
-                        color: Color(0xFF176B5B),
-                        fontSize: 9,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 0.6,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  right: 12,
-                  top: 10,
-                  child: Material(
-                    color: Colors.white,
-                    shape: const CircleBorder(),
-                    child: IconButton(
-                      key: const Key('favoriteButton'),
-                      tooltip: _isFavorite
-                          ? 'Hapus dari favorit'
-                          : 'Tambahkan ke favorit',
-                      onPressed: () {
-                        setState(() {
-                          _isFavorite = !_isFavorite;
-                          _likes += _isFavorite ? 1 : -1;
-                        });
-                      },
-                      icon: Icon(
-                        _isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: _isFavorite
-                            ? const Color(0xFFE85D75)
-                            : const Color(0xFF60716A),
-                      ),
-                    ),
-                  ),
+                Icon(Icons.headphones, color: Color(0xFF136F63), size: 58),
+                SizedBox(height: 5),
+                Text(
+                  'Gambar produk',
+                  style: TextStyle(color: Color(0xFF64736D)),
                 ),
               ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 13, 16, 15),
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 9,
-                        vertical: 5,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFEAF4EF),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Text(
-                        'Aksesori',
-                        style: TextStyle(
-                          color: Color(0xFF286A58),
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    const Icon(
-                      Icons.favorite_rounded,
-                      color: Color(0xFFE85D75),
-                      size: 15,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      '$_likes suka',
-                      style: const TextStyle(
-                        color: Color(0xFF718079),
-                        fontSize: 11,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                const Text(
-                  'Aurora Headphone',
-                  style: TextStyle(
-                    color: Color(0xFF183A33),
-                    fontSize: 17,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-                const SizedBox(height: 3),
-                const Text(
-                  'Suara jernih, nyaman dipakai seharian.',
-                  style: TextStyle(color: Color(0xFF78847E), fontSize: 11),
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
+                    const Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'HARGA',
+                          Text(
+                            'Headphone Studio',
                             style: TextStyle(
-                              color: Color(0xFF87938E),
-                              fontSize: 9,
+                              color: Color(0xFF18332F),
+                              fontSize: 17,
                               fontWeight: FontWeight.w700,
-                              letterSpacing: 0.8,
                             ),
                           ),
-                          const SizedBox(height: 2),
+                          SizedBox(height: 4),
                           Text(
-                            _formatRupiah(_unitPrice),
-                            style: const TextStyle(
-                              color: Color(0xFF176B5B),
-                              fontSize: 18,
+                            'Elektronik & Audio',
+                            style: TextStyle(color: Color(0xFF64736D)),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            'Rp 125.000',
+                            style: TextStyle(
+                              color: Color(0xFF136F63),
+                              fontSize: 17,
                               fontWeight: FontWeight.w800,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    _QuantityButton(
-                      label: 'Kurangi jumlah',
-                      icon: Icons.remove,
-                      onPressed: _quantity > 1
-                          ? () => _changeQuantity(-1)
-                          : null,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Text(
-                        '$_quantity',
-                        key: const Key('quantityValue'),
-                        style: const TextStyle(
-                          color: Color(0xFF183A33),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ),
-                    _QuantityButton(
-                      label: 'Tambah jumlah',
-                      icon: Icons.add,
-                      onPressed: () => _changeQuantity(1),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 13),
-                SizedBox(
-                  width: double.infinity,
-                  child: FilledButton(
-                    key: const Key('addToCartButton'),
-                    onPressed: () {
-                      ScaffoldMessenger.of(context)
-                        ..hideCurrentSnackBar()
-                        ..showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              '$_quantity Aurora Headphone ditambahkan ke keranjang '
-                              '(${_formatRupiah(_unitPrice * _quantity)})',
-                            ),
-                            behavior: SnackBarBehavior.floating,
-                          ),
-                        );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    Column(
                       children: [
-                        const Icon(Icons.shopping_bag_outlined, size: 18),
-                        const SizedBox(width: 8),
-                        Flexible(
-                          child: Text(
-                            'Tambah ke Keranjang • '
-                            '${_formatRupiah(_unitPrice * _quantity)}',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                            ),
+                        IconButton(
+                          key: const ValueKey('favorite-button'),
+                          onPressed: _toggleFavorite,
+                          tooltip: 'Favorite',
+                          visualDensity: VisualDensity.compact,
+                          icon: Icon(
+                            _isFavorite
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: _isFavorite
+                                ? const Color(0xFFCF5C36)
+                                : const Color(0xFF64736D),
+                          ),
+                        ),
+                        Text(
+                          '$_likes suka',
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: Color(0xFF64736D),
                           ),
                         ),
                       ],
                     ),
+                  ],
+                ),
+                const Divider(height: 24),
+                Row(
+                  children: [
+                    const Expanded(
+                      child: Text(
+                        'Jumlah produk',
+                        style: TextStyle(
+                          color: Color(0xFF64736D),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      key: const ValueKey('quantity-minus'),
+                      onPressed: _quantity > 1
+                          ? () => _changeQuantity(-1)
+                          : null,
+                      tooltip: 'Kurangi jumlah',
+                      visualDensity: VisualDensity.compact,
+                      icon: const Icon(Icons.remove_circle_outline),
+                    ),
+                    Text(
+                      '$_quantity',
+                      key: const ValueKey('quantity-value'),
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
+                    IconButton(
+                      key: const ValueKey('quantity-plus'),
+                      onPressed: () => _changeQuantity(1),
+                      tooltip: 'Tambah jumlah',
+                      visualDensity: VisualDensity.compact,
+                      icon: const Icon(Icons.add_circle_outline),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Expanded(
+                      child: Text(
+                        'Total harga',
+                        style: TextStyle(color: Color(0xFF64736D)),
+                      ),
+                    ),
+                    Text(
+                      _formatRupiah(_unitPrice * _quantity),
+                      key: const ValueKey('total-price'),
+                      style: const TextStyle(
+                        color: Color(0xFF18332F),
+                        fontSize: 17,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 14),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            '$_quantity produk ditambahkan ke keranjang',
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.shopping_cart_outlined),
+                    label: const Text('Tambah ke Keranjang'),
                     style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFF176B5B),
-                      foregroundColor: Colors.white,
+                      backgroundColor: const Color(0xFF136F63),
                       padding: const EdgeInsets.symmetric(vertical: 13),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
                     ),
                   ),
                 ),
@@ -603,41 +446,6 @@ class _ProductCardState extends State<ProductCard> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _QuantityButton extends StatelessWidget {
-  const _QuantityButton({
-    required this.label,
-    required this.icon,
-    required this.onPressed,
-  });
-
-  final String label;
-  final IconData icon;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 34,
-      height: 34,
-      child: IconButton.outlined(
-        tooltip: label,
-        onPressed: onPressed,
-        padding: EdgeInsets.zero,
-        iconSize: 17,
-        visualDensity: VisualDensity.compact,
-        icon: Icon(icon),
-        style: OutlinedButton.styleFrom(
-          foregroundColor: const Color(0xFF176B5B),
-          side: const BorderSide(color: Color(0xFFDCE8E0)),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
       ),
     );
   }
